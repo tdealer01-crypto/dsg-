@@ -1,0 +1,5 @@
+{
+  "name": "DSG - Deterministic Security Gate",
+  "description": "A stateless, deterministic security gate implementing Invariant Engines and Structural Drift Metrics for robust API security.",
+  "requestFramePermissions": []
+}
