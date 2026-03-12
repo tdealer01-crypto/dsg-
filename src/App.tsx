@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Activity, Lock, CheckCircle2, XCircle, Terminal, Info, Zap, RefreshCw, Github, Star, Share2, BookOpen, DollarSign } from 'lucide-react';
+import { Shield, Activity, Lock, CheckCircle2, XCircle, Terminal, Info, Zap, RefreshCw, Github, Star, Share2, BookOpen, DollarSign, Binary, Scale } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleGenAI } from "@google/genai";
 
@@ -165,16 +165,30 @@ export default function App() {
             </div>
           </section>
 
-          <section className="bg-emerald-900 text-emerald-100 p-6 shadow-[4px_4px_0px_0px_rgba(20,20,20,1)]">
-            <div className="flex items-center gap-2 mb-4 border-b border-emerald-700 pb-2">
-              <DollarSign size={16} />
-              <h2 className="text-xs font-mono uppercase font-bold">Monetization Plan</h2>
+          <section className="bg-blue-900 text-blue-100 p-6 shadow-[4px_4px_0px_0px_rgba(20,20,20,1)]">
+            <div className="flex items-center gap-2 mb-4 border-b border-blue-700 pb-2">
+              <Binary size={16} />
+              <h2 className="text-xs font-mono uppercase font-bold">Theoretical Status</h2>
             </div>
-            <ul className="text-[10px] font-mono space-y-2 opacity-80">
-              <li>• <span className="font-bold">Enterprise:</span> Custom Invariants & SLA</li>
-              <li>• <span className="font-bold">Compliance:</span> SOC2/ISO Audit Proofs</li>
-              <li>• <span className="font-bold">Cloud:</span> Managed Global SaaS</li>
-            </ul>
+            <div className="space-y-2 text-[10px] font-mono opacity-80">
+              <p>• <span className="font-bold">Class:</span> Finite Automaton</p>
+              <p>• <span className="font-bold">Hierarchy:</span> Regular Language</p>
+              <p>• <span className="font-bold">Dynamics:</span> Non-Chaotic / Bounded</p>
+              <p>• <span className="font-bold">Structure:</span> Thin Category (Poset)</p>
+            </div>
+          </section>
+
+          <section className="bg-slate-800 text-slate-100 p-6 shadow-[4px_4px_0px_0px_rgba(20,20,20,1)]">
+            <div className="flex items-center gap-2 mb-4 border-b border-slate-600 pb-2">
+              <Scale size={16} />
+              <h2 className="text-xs font-mono uppercase font-bold">IP Protection</h2>
+            </div>
+            <div className="space-y-1 text-[9px] font-mono opacity-70 uppercase">
+              <p>• MIT License (Core)</p>
+              <p>• Trademark: DSG™</p>
+              <p>• Copyright © 2026</p>
+              <p>• Open-Core Strategy</p>
+            </div>
           </section>
         </div>
 

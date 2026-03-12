@@ -27,6 +27,27 @@ DSG is built upon rigorous academic research and technical proofs. You can verif
 
 ---
 
+## 🔬 Theoretical Analysis
+
+DSG has been rigorously analyzed through several computational lenses:
+
+1. **Chaos-Theoretic Drift Dynamics**: DSG is non-chaotic. Due to its bounded drift ($\Delta \le \Delta_{max}$) and deterministic transitions, it lacks the exponential divergence required for chaos, ensuring system stability.
+2. **Category-Theory Collapse**: In category-theoretic terms, DSG collapses into a **Thin Category**, which is mathematically equivalent to a **Partial Order (Poset)**. This simplifies state transition complexity.
+3. **Computational Hierarchy**: DSG is equivalent to a **Finite Automaton**. It operates at the level of **Regular Languages**, providing $O(1)$ decision time and guaranteed termination, making it a perfect "Safety Filter".
+
+---
+
+## ⚖️ Intellectual Property & Strategy
+
+DSG follows an **Open-Core** intellectual property strategy:
+
+- **Copyright**: All source code is protected by copyright.
+- **License**: The core engine is distributed under the **MIT License** to encourage global adoption.
+- **Trademark**: The names "DSG" and "Deterministic Security Gate" are protected marks.
+- **Trade Secrets**: While the algorithm is open, specific **Enterprise Invariants** and **Hardware Logic** are maintained as proprietary trade secrets.
+
+---
+
 ## 💰 Monetization & Business Model
 
 DSG is open-source, but we offer enterprise-grade solutions for high-scale environments:
