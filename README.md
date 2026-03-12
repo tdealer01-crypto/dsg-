@@ -116,14 +116,14 @@ If $\Delta > 256$, the request is automatically **BLOCKED**.
 
 ---
 
-## 📊 Benchmarks
+## 📊 Benchmarks (V3)
 
-| Metric | DSG | Typical WAF | AI Guardrails |
+| Metric | DSG V3 | Typical WAF | AI Guardrails |
 | :--- | :--- | :--- | :--- |
-| **Latency** | **0.08 ms** | 5–20 ms | 100 ms+ |
+| **Latency** | **0.01 ms** | 5–20 ms | 100 ms+ |
+| **Throughput** | **150k req/s** | 10k req/s | < 100 req/s |
 | **Determinism** | **100%** | 90% | ~70% |
 | **Memory** | **< 5MB** | 500MB+ | 2GB+ |
-| **Stateless** | **Yes** | No | No |
 
 ---
 
@@ -131,7 +131,9 @@ If $\Delta > 256$, the request is automatically **BLOCKED**.
 
 ```text
 dsg/
- ├ server.ts        # DSG Core Algorithm & API
+ ├ core/            # V3 Engine, Policy, Validator
+ ├ api/             # API Server implementation
+ ├ policies/        # Policy DSL (YAML)
  ├ src/             # Dashboard UI
  ├ examples/        # Use cases (API Firewall, LLM Guard)
  ├ benchmarks/      # Performance tests

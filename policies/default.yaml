@@ -1,0 +1,17 @@
+rules:
+  - name: intent_positive
+    field: intent_score
+    op: ">"
+    value: 0
+  - name: api_clean
+    field: is_api_clean
+    op: "=="
+    value: true
+  - name: cost_limit
+    field: compute_cost
+    op: "<"
+    value: 1000
+  - name: source_verified
+    field: source_verified
+    op: "=="
+    value: true

@@ -7,14 +7,7 @@ import { GoogleGenAI } from "@google/genai";
 const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
 
 interface Invariants {
-  RIGHT_VIEW: boolean;
-  RIGHT_INTENT: boolean;
-  RIGHT_SPEECH: boolean;
-  RIGHT_CONDUCT: boolean;
-  RIGHT_LIVELIHOOD: boolean;
-  RIGHT_EFFORT: boolean;
-  RIGHT_MINDFUL: boolean;
-  RIGHT_SAMADHI: boolean;
+  [key: string]: boolean;
 }
 
 interface GateResult {
@@ -23,6 +16,8 @@ interface GateResult {
   invariants: Invariants;
   deterministic: boolean;
   proof: string;
+  version?: string;
+  timestamp?: string;
 }
 
 const DEFAULT_CURRENT = { value: 10 };
@@ -44,6 +39,8 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [explanation, setExplanation] = useState('');
   const [explaining, setExplaining] = useState(false);
+  const [benchmarkResult, setBenchmarkResult] = useState<any>(null);
+  const [isBenchmarking, setIsBenchmarking] = useState(false);
 
   const runGate = async () => {
     setLoading(true);
@@ -65,6 +62,19 @@ export default function App() {
     }
   };
 
+  const runBenchmark = async () => {
+    setIsBenchmarking(true);
+    try {
+      const response = await fetch('/api/benchmark');
+      const data = await response.json();
+      setBenchmarkResult(data);
+    } catch (error) {
+      console.error('Benchmark failed:', error);
+    } finally {
+      setIsBenchmarking(false);
+    }
+  };
+
   const getAIExplanation = async () => {
     if (!result) return;
     setExplaining(true);
@@ -74,8 +84,9 @@ export default function App() {
       Delta: ${result.delta}
       Invariants: ${JSON.stringify(result.invariants)}
       Proof: ${result.proof}
+      Version: ${result.version || 'V3.0.0'}
       
-      Explain why it was ${result.status} based on the DSG V160 algorithm (Noble Eightfold Invariants and Structural Drift).`;
+      Explain why it was ${result.status} based on the DSG V3 algorithm (Policy DSL, Schema Validation, and Invariant Engines).`;
       
       const response = await genAI.models.generateContent({
         model: "gemini-3.1-flash-lite-preview",
@@ -96,9 +107,12 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#E4E3E0] text-[#141414] font-sans p-4 md:p-8">
       <header className="max-w-7xl mx-auto mb-12 border-b border-[#141414] pb-4 flex justify-between items-end">
-        <div>
-          <h1 className="text-4xl font-bold tracking-tighter uppercase italic font-serif">DSG V160</h1>
-          <p className="text-xs opacity-60 uppercase tracking-widest font-mono">Deterministic Security Gate / Invariant Engine</p>
+        <div className="flex items-center gap-4">
+          <Shield className="text-[#141414]" size={32} />
+          <div>
+            <h1 className="text-4xl font-bold tracking-tighter uppercase italic font-serif leading-none">DSG V3.0</h1>
+            <p className="text-xs opacity-60 uppercase tracking-widest font-mono">High-Performance Deterministic Engine</p>
+          </div>
         </div>
         <div className="text-right hidden md:block">
           <div className="flex items-center gap-4 mb-2 justify-end">
@@ -122,7 +136,7 @@ export default function App() {
           <section className="bg-white border border-[#141414] p-6 shadow-[4px_4px_0px_0px_rgba(20,20,20,1)]">
             <div className="flex items-center gap-2 mb-4 border-b border-[#141414] pb-2">
               <Terminal size={16} />
-              <h2 className="text-xs font-mono uppercase font-bold">Payload Configuration</h2>
+              <h2 className="text-xs font-mono uppercase font-bold">V3 Payload Config</h2>
             </div>
             
             <div className="space-y-4">
@@ -131,7 +145,7 @@ export default function App() {
                 <textarea 
                   value={currentState}
                   onChange={(e) => setCurrentState(e.target.value)}
-                  className="w-full h-32 bg-[#F5F5F5] border border-[#141414] p-3 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-[#141414] resize-none"
+                  className="w-full h-24 bg-[#F5F5F5] border border-[#141414] p-3 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-[#141414] resize-none"
                 />
               </div>
               <div>
@@ -139,7 +153,7 @@ export default function App() {
                 <textarea 
                   value={proposedState}
                   onChange={(e) => setProposedState(e.target.value)}
-                  className="w-full h-64 bg-[#F5F5F5] border border-[#141414] p-3 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-[#141414] resize-none"
+                  className="w-full h-48 bg-[#F5F5F5] border border-[#141414] p-3 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-[#141414] resize-none"
                 />
               </div>
               <button 
@@ -148,9 +162,42 @@ export default function App() {
                 className="w-full bg-[#141414] text-white py-3 font-mono uppercase text-sm flex items-center justify-center gap-2 hover:bg-opacity-90 transition-all active:translate-y-1 active:shadow-none"
               >
                 {loading ? <RefreshCw className="animate-spin" size={16} /> : <Zap size={16} />}
-                Execute Gate Logic
+                Execute V3 Gate
               </button>
             </div>
+          </section>
+
+          <section className="bg-white border border-[#141414] p-6 shadow-[4px_4px_0px_0px_rgba(20,20,20,1)]">
+            <div className="flex items-center justify-between mb-4 border-b border-[#141414] pb-2">
+              <div className="flex items-center gap-2">
+                <Zap size={16} />
+                <h2 className="text-xs font-mono uppercase font-bold">V3 Performance Benchmark</h2>
+              </div>
+              <button 
+                onClick={runBenchmark}
+                disabled={isBenchmarking}
+                className="text-[10px] font-mono uppercase bg-[#141414] text-white px-3 py-1 hover:bg-opacity-80 transition-all disabled:opacity-50"
+              >
+                {isBenchmarking ? 'Running...' : 'Run 100k Iterations'}
+              </button>
+            </div>
+            
+            {benchmarkResult ? (
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-[#f5f5f5] p-3 border border-[#141414]/10">
+                  <p className="text-[9px] opacity-40 uppercase">Throughput</p>
+                  <p className="text-xl font-mono font-bold text-emerald-600">{benchmarkResult.req_per_sec.toLocaleString()} <span className="text-[10px] font-normal">req/s</span></p>
+                </div>
+                <div className="bg-[#f5f5f5] p-3 border border-[#141414]/10">
+                  <p className="text-[9px] opacity-40 uppercase">Total Time</p>
+                  <p className="text-xl font-mono font-bold">{benchmarkResult.duration_ms.toFixed(2)} <span className="text-[10px] font-normal">ms</span></p>
+                </div>
+              </div>
+            ) : (
+              <div className="h-[68px] flex items-center justify-center border border-dashed border-[#141414]/20 text-[10px] font-mono opacity-40 uppercase">
+                Ready for stress test
+              </div>
+            )}
           </section>
 
           <section className="bg-[#141414] text-white p-6 shadow-[4px_4px_0px_0px_rgba(228,227,224,1)]">
@@ -198,7 +245,7 @@ export default function App() {
             <div className="flex items-center justify-between mb-6 border-b border-[#141414] pb-2">
               <div className="flex items-center gap-2">
                 <Activity size={16} />
-                <h2 className="text-xs font-mono uppercase font-bold">Gate Decision Engine</h2>
+                <h2 className="text-xs font-mono uppercase font-bold">V3 Decision Engine</h2>
               </div>
               {result && (
                 <div className={`px-3 py-1 text-[10px] font-mono uppercase font-bold ${result.status === 'ALLOWED' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`}>
@@ -212,7 +259,7 @@ export default function App() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Invariants Grid */}
                   <div>
-                    <h3 className="text-[10px] font-mono uppercase opacity-50 mb-3 italic font-serif">Invariant Evaluation</h3>
+                    <h3 className="text-[10px] font-mono uppercase opacity-50 mb-3 italic font-serif">Policy DSL Evaluation</h3>
                     <div className="space-y-2">
                       {Object.entries(result.invariants).map(([key, val]) => (
                         <div key={key} className="flex items-center justify-between border-b border-black/5 pb-1">
@@ -242,7 +289,7 @@ export default function App() {
                     </div>
 
                     <div>
-                      <h3 className="text-[10px] font-mono uppercase opacity-50 mb-3 italic font-serif">Deterministic Proof</h3>
+                      <h3 className="text-[10px] font-mono uppercase opacity-50 mb-3 italic font-serif">V3 Deterministic Proof</h3>
                       <div className="bg-[#F5F5F5] border border-[#141414] p-3 break-all">
                         <p className="text-[9px] font-mono leading-tight opacity-70 uppercase mb-1">SHA-256 Hash</p>
                         <p className="text-[10px] font-mono font-bold">{result.proof}</p>
@@ -288,14 +335,14 @@ export default function App() {
             ) : (
               <div className="flex flex-col items-center justify-center h-64 opacity-20">
                 <Shield size={48} />
-                <p className="text-xs font-mono uppercase mt-4">Awaiting Execution</p>
+                <p className="text-xs font-mono uppercase mt-4">Awaiting V3 Execution</p>
               </div>
             )}
           </section>
 
           <footer className="text-[10px] font-mono opacity-40 uppercase flex justify-between">
             <p>© 2026 DSG SECURITY SYSTEMS</p>
-            <p>BUILD: V160.FINAL</p>
+            <p>BUILD: V3.0.0-TS</p>
           </footer>
         </div>
       </main>
