@@ -111,7 +111,7 @@ export default function App() {
           <Shield className="text-[#141414]" size={32} />
           <div>
             <h1 className="text-4xl font-bold tracking-tighter uppercase italic font-serif leading-none">DSG V3.0</h1>
-            <p className="text-xs opacity-60 uppercase tracking-widest font-mono">High-Performance Deterministic Engine</p>
+            <p className="text-xs opacity-60 uppercase tracking-widest font-mono">Stateless Deterministic Policy Engine</p>
           </div>
         </div>
         <div className="text-right hidden md:block">
